@@ -40,7 +40,7 @@ extension UIApplication {
 extension UIApplication {
 
     /** 检测相册授权情况 */
-    public static func bcrequestphotoauthorization(_ handler: @escaping ( isAuthorized: Bool,  status: PHAuthorizationStatus) -> Void) {
+    public static func bcrequestphotoauthorization(_ handler: @escaping (_ isAuthorized: Bool, _ status: PHAuthorizationStatus) -> Void) {
         
         PHPhotoLibrary.requestAuthorization { status in
             if status == .notDetermined || status == .restricted || status == .denied{
