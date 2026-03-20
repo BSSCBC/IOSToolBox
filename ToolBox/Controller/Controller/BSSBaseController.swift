@@ -9,14 +9,12 @@ import UIKit
 
 open class BSSBaseController: UIViewController {
 
-    //  状态栏颜色
     open override var preferredStatusBarStyle: UIStatusBarStyle {
         get {
             return .lightContent
         }
     }
 
-    //  控制器状态
     public lazy var bccontrollerstatus: BSSEnumBaseControllerStatus = .bcdefault {
         didSet {
             bccontrollerstatuschange()
@@ -32,7 +30,6 @@ open class BSSBaseController: UIViewController {
     public lazy var bcbackgroundcontentview: UIView = UIView()
     public lazy var bcbackgroundheaderimageView: UIImageView = UIImageView()
     
-    //  用于解决,左滑返回于scrollView等控件左右滑动冲突,牺牲左侧宽度10的所有事件
     private(set) lazy var bclefttapview: UIView = UIView()
     
     private(set) lazy var bcrequestloadingview: BSSBaseLoadingView = BSSBaseLoadingView()
@@ -50,9 +47,10 @@ open class BSSBaseController: UIViewController {
     deinit {
         print(String(format: "%@", self) + "被销毁了")
     }
+    
 }
 
-extension BSSBaseController {
+public extension BSSBaseController {
     override open func viewDidLoad() {
         super.viewDidLoad()
         
@@ -72,21 +70,16 @@ extension BSSBaseController {
         bccontrollermanager.bcaddlog(controllerName: "\(self)", status: "viewWillLayoutSubviews")
     }
     
-    override open func viewWillDisappear( animated: Bool) {
+    override open func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         bccontrollermanager.bcaddlog(controllerName: "\(self)", status: "viewWillDisappear")
     }
-}
-
-extension BSSBaseController {
-    
+        
     @objc dynamic open func bcretryrequestclick() {
         bccontrollerstatus = .bcfirstrequest
     }
-}
-
-extension BSSBaseController {
+    
     @objc dynamic open func bcsetInterface() {
         
         view.addSubview(bcbackgroundcontentview)
@@ -131,9 +124,7 @@ extension BSSBaseController {
     public func bchiddenbackgroundheaderimageView() {
         bcbackgroundheaderimageView.isHidden = true
     }
-}
-
-extension BSSBaseController {
+    
     private func bcshowrequestloading() {
         bccontentview.isHidden = true
         bcrequestloadingview.bcshowloading()
@@ -143,9 +134,7 @@ extension BSSBaseController {
         bcrequestloadingview.bchiddenloading()
         bccontentview.isHidden = false
     }
-}
-
-extension BSSBaseController {
+    
     private func bccontrollerstatuschange(iconName: String? = nil, iconSize: CGSize? = nil, statusText: String? = nil, statusTextColor: UIColor? = nil, statusFont: UIFont? = nil) {
         
         bcstatusview.bcset(status: bccontrollerstatus, iconName: iconName, iconSize: iconSize, statusText: statusText,  statusTextColor: statusTextColor, statusFont: statusFont)
@@ -173,9 +162,7 @@ extension BSSBaseController {
         bccontrollerstatus = .bcother
         bccontrollerstatuschange(iconName: iconName, iconSize: iconSize, statusText: statusText, statusTextColor: statusTextColor, statusFont: statusFont)
     }
-}
-
-public extension BSSBaseController {
+    
     static func bcID() -> String {
         return "\(self)"
     }
