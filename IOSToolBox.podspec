@@ -12,5 +12,6 @@ Pod::Spec.new do |spec|
 
   	spec.dependency 'MJRefresh',   '~> 3.7.9'
 	spec.dependency 'NotificationBannerSwift'
+	spec.dependency 'MBProgressHUD'
 
 end
