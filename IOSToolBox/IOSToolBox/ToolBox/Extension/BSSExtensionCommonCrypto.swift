@@ -1,0 +1,36 @@
+//
+//  BSSExtensionCommonCrypto.swift
+//  IOSToolBox
+//
+//  Created by BSSCBC on 2024/10/13.
+//
+
+import CommonCrypto
+import Foundation
+
+extension String {
+    /** md5加密 */
+    public var bcmd5: String {
+        let str = cString(using: String.Encoding.utf8)
+        let strLen = CUnsignedInt(lengthOfBytes(using: String.Encoding.utf8))
+        let digestLen = Int(CCMD5DIGESTLENGTH)
+        let result = UnsafeMutablePointer<CUnsignedChar>.allocate(capacity: digestLen)
+        CCMD5(str!, strLen, result)
+        
+        let hash = NSMutableString()
+        
+        for i in 0..<digestLen {
+            hash.appendFormat("%02x", result[i])
+        }
+        
+        result.deallocate()
+        return hash as String
+    }
+    
+    public func bcbase64() -> String? {
+        guard let data = data(using: .utf8, allowLossyConversion: true) else {
+            return nil
+        }
+        return data.base64EncodedString()
+    }
+}
