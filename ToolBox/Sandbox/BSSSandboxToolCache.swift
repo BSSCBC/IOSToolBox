@@ -8,19 +8,6 @@
 import UIKit
 
 extension BSSSandboxTool {
-    /**
-     传入沙盒文件路径 计算文件大小
-     */
-    
-    /**
-            示例:
-     if let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first,
-        let filePath = NSURL(fileURLWithPath: documentsPath).appendingPathComponent("yourFile.txt")?.path {
-         if let size = fileSize(atPath: filePath) {
-             print("File size: \(size) bytes")
-         }
-     }
-     */
     public static func bccaluefileSize(atPath path: String) -> Int? {
         let fileManager = FileManager.default
         
@@ -44,18 +31,6 @@ extension BSSSandboxTool {
 }
 
 extension BSSSandboxTool {
-    /**
-     传入沙盒文件夹路径 计算文件夹大小
-     */
-    
-    /**
-            示例:
-     if let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
-         if let size = folderSize(atPath: documentsPath) {
-             print("Folder size: \(size) bytes")
-         }
-     }
-     */
     public static func bccaluefolderSize(atPath path: String) -> Int? {
         let fileManager = FileManager.default
         
@@ -91,22 +66,12 @@ extension BSSSandboxTool {
     }
 }
 
-//  MARK: 旧方法
 extension BSSSandboxTool {
-
-    /// 计算单个文件大小
-    ///
-    /// - Parameter filePath: 文件全路径
     public static func bccalculatefilesize(filePath : String) -> Float {
         
-        //  获取文件管理者
         let fileManager = FileManager.default
         
-        //  为了安全，应该判断filePath是否是真的文件全路径
-//        assert(fileManager.fileExists(atPath: filePath) != false, "filePath不是完整的全路径")
-        
         do {
-            /// attributesOfItem只适用于计算单个文件大小
             let fileSize = try fileManager.attributesOfItem(atPath: filePath)[FileAttributeKey.size]
             
             return (fileSize as? Float) ?? 0
@@ -118,49 +83,24 @@ extension BSSSandboxTool {
         
     }
     
-    /// 计算文件夹大小
-    ///
-    /// - Parameter filePath: 文件夹全路径
     public static func bccalculatefoldersize(folderPath : String, completion : @escaping (_ fileSize : Float)->()) {
         
         let operation = BlockOperation{
             
-            //            print(Thread.current)
-            
             var fileSize : Float = 0.0
             
-            //  获取文件管理者
             let fileManager = FileManager.default
             
-            //  为了安全，应该判断filePath是否是真的文件夹全路径
-            //        assert(fileManager.fileExists(atPath: filePath) != false, "filePath不是完整的全路径")
-            
-            //  获取文件夹内文件数组
             guard let fileArray = fileManager.subpaths(atPath: folderPath) else {
                 return completion(fileSize)
             }
             
-            //  遍历文件夹
             for filePath in fileArray {
-                
-                //  排除.DS文件
                 if filePath.hasPrefix(".DS") {
                     continue
                 }
-                
-                //  还应该排除是否为文件夹
-                /*
-                 // 判断是否文件夹
-                 BOOL isDirectory;
-                 // 判断文件是否存在,并且判断是否是文件夹
-                 BOOL isExist = [mgr fileExistsAtPath:filePath isDirectory:&isDirectory];
-                 if (!isExist || isDirectory) continue;
-                 */
-                
-                //  拼接完整路径
                 let fileAllPath = (folderPath as NSString).appendingPathComponent(filePath)
                 
-                //  计算文件大小
                 fileSize = fileSize + (bccalculatefilesize(filePath: fileAllPath))
             }
             
@@ -173,10 +113,8 @@ extension BSSSandboxTool {
     
 }
 
-//  MARK: 获取缓存大小
 extension BSSSandboxTool{
-    /**  获取cache文件夹大小 */
-    public static func bccalculatecachessize(completion : @escaping ( fileSize : Float)->()) {
+    public static func bccalculatecachessize(completion : @escaping (_ fileSize : Float)->()) {
         guard let path = bccachespath() else {
             completion(0)
             return
@@ -186,16 +124,12 @@ extension BSSSandboxTool{
         }
     }
     
-    /** 获取temp文件夹大小 */
-    public static func bccalculatetempsize(completion : @escaping ( fileSize : Float)->()) {
+    public static func bccalculatetempsize(completion : @escaping (_ fileSize : Float)->()) {
         bccalculatefoldersize(folderPath: bctemppath()) { (size) in
             completion(size)
         }
     }
     
-    /**
-     快速删除沙盒缓存
-     因为沙盒缓存都是放在cache文件夹下的，所以我们就cache文件夹下的文件即可 */
     public static func bcdeletecache(finishCallBack: (() -> Void)? = nil) {
         guard let path = bccachespath() else {
             return
@@ -203,19 +137,13 @@ extension BSSSandboxTool{
         bcdeletefileoffolder(folderPath: path, finishCallBack: finishCallBack)
     }
     
-    /**
-     快速删除temp文件夹沙盒缓存 */
     public static func bcdeletetemp(finishCallBack: (() -> Void)? = nil) {
         bcdeletefileoffolder(folderPath: bctemppath(), finishCallBack: finishCallBack)
     }
 }
 
-//  MARK: 删除文件
 extension BSSSandboxTool {
-
-    /** 删除单个文件 */
     public static func bcdeletefile(filePath : String) -> Bool {
-        //  获取文件管理者
         let fileManager = FileManager.default
         
         do {
@@ -224,15 +152,12 @@ extension BSSSandboxTool {
         } catch  {
             return false
         }
-        
     }
     
-    /** 删除文件夹下的所有文件 */
     public static func bcdeletefileoffolder(folderPath : String, finishCallBack: (() -> Void)? = nil) {
         //  获取文件管理者
         let fileManager = FileManager.default
         
-        //  获取文件夹内文件数组
         guard let fileArray = fileManager.subpaths(atPath: folderPath) else {
             if finishCallBack != nil {
                 finishCallBack!()
