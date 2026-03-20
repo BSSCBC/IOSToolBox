@@ -49,8 +49,8 @@ open class BSSTextField: UITextField {
 
 extension BSSTextField {
     private func bcchangeplaceholder() {
-        let ivar = classgetInstanceVariable(objectgetClass(UITextField()), "placeholderLabel")
-        let placeholderLabel  = objectgetIvar(self, ivar!) as? UILabel
+        let ivar = class_getInstanceVariable(object_getClass(UITextField()), "_placeholderLabel")
+        let placeholderLabel  = object_getIvar(self, ivar!) as? UILabel
         placeholderLabel?.textColor = bcplaceholdercolor
         placeholderLabel?.font = bcplaceholderfont
     }
