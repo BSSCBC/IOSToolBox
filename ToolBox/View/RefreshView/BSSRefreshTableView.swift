@@ -29,22 +29,22 @@ open class BSSRefreshTableView: UITableView {
 
 extension BSSRefreshTableView {
     @objc dynamic open func bcsetrefresh() {
-        if mjheader != nil {
-            mjheader = nil
+        if mj_header != nil {
+            mj_header = nil
         }
         
-        if mjfooter != nil {
-            mjfooter = nil
+        if mj_footer != nil {
+            mj_footer = nil
         }
         
-        mjheader = MJRefreshStateHeader(refreshingTarget: self, refreshingAction: #selector(bcloaddata))
-        mjfooter = MJRefreshAutoStateFooter(refreshingTarget: self, refreshingAction: #selector(bcrequestmoredata))
-        mjfooter?.isHidden = bchiddenfooterrefresh
+        mj_header = MJRefreshStateHeader(refreshingTarget: self, refreshingAction: #selector(bcloaddata))
+        mj_footer = MJRefreshAutoStateFooter(refreshingTarget: self, refreshingAction: #selector(bcrequestmoredata))
+        mj_footer?.isHidden = bchiddenfooterrefresh
     }
     
     public func bcremoverefresh() {
-        mjheader = nil
-        mjfooter = nil
+        mj_header = nil
+        mj_footer = nil
     }
 }
 
@@ -53,25 +53,25 @@ extension BSSRefreshTableView {
     public func bcshowrefresh() {
         bchiddenheaderrefresh = false
         bchiddenfooterrefresh = false
-        mjheader?.isHidden = bchiddenheaderrefresh
-        mjfooter?.isHidden = bchiddenfooterrefresh
+        mj_header?.isHidden = bchiddenheaderrefresh
+        mj_footer?.isHidden = bchiddenfooterrefresh
     }
     
     public func bchiddenrefresh() {
         bchiddenheaderrefresh = true
         bchiddenfooterrefresh = true
-        mjheader?.isHidden = bchiddenheaderrefresh
-        mjfooter?.isHidden = bchiddenfooterrefresh
+        mj_header?.isHidden = bchiddenheaderrefresh
+        mj_footer?.isHidden = bchiddenfooterrefresh
     }
 
     @objc public func bchiddenheaderrefresh(isHidden: Bool) {
         bchiddenheaderrefresh = isHidden
-        mjheader?.isHidden = bchiddenheaderrefresh
+        mj_header?.isHidden = bchiddenheaderrefresh
     }
     
     @objc public func bchiddenfooterrefresh(isHidden: Bool) {
         bchiddenfooterrefresh = isHidden
-        mjfooter?.isHidden = bchiddenfooterrefresh
+        mj_footer?.isHidden = bchiddenfooterrefresh
     }
 }
 
@@ -101,11 +101,11 @@ extension BSSRefreshTableView {
             bcresetfooterrefresh()
         }
         
-        mjheader?.beginRefreshing()
+        mj_header?.beginRefreshing()
     }
     
     public func bcendheaderrefresh() {
-        mjheader?.endRefreshing()
+        mj_header?.endRefreshing()
     }
 }
 
@@ -128,18 +128,18 @@ extension BSSRefreshTableView {
             return
         }
         
-        mjfooter?.beginRefreshing()
+        mj_footer?.beginRefreshing()
     }
     
     public func bcendfooterrefresh() {
-        mjfooter?.endRefreshing()
+        mj_footer?.endRefreshing()
     }
     
     public func bcendfooterrefreshwithnoMore() {
-        mjfooter?.endRefreshingWithNoMoreData()
+        mj_footer?.endRefreshingWithNoMoreData()
     }
     
     public func bcresetfooterrefresh() {
-        mjfooter?.resetNoMoreData()
+        mj_footer?.resetNoMoreData()
     }
 }
