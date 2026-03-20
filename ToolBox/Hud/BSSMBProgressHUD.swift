@@ -1,5 +1,5 @@
 //
-//  BSSHUDTool.swift
+//  BSSMBProgressHUD.swift
 //  BSSSDKToolPackage
 //
 //  Created by BSSCBC on 2024/8/29.
@@ -83,7 +83,7 @@ extension BSSHUDTool {
     ///   - isMask: 是否有遮罩
     ///   - isCoverNavi: 是否盖着导航
     ///   - showTime: 提示时长
-    public class func bcshowtipMessage( message: String?, iconName: String?, view: UIView? = BSSHUDkeywindow, isMask: Bool = false, isCoverNavi: Bool = true, showTime: Double = defaultHUDShowTime, completeClosure: (() -> Void)? = nil) {
+    public class func bcshowtipMessage(_ message: String?, iconName: String?, view: UIView? = BSSHUDkeywindow, isMask: Bool = false, isCoverNavi: Bool = true, showTime: Double = defaultHUDShowTime, completeClosure: (() -> Void)? = nil) {
         
         bchiddenHUD()
         
