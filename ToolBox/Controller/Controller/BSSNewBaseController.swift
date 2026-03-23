@@ -7,7 +7,7 @@
 
 import UIKit
 
-public enum BSSEnumBaseControllerStatus: Int {
+public enum BSSEnumNewBaseControllerStatus: Int {
     //  默认状态下 显示contentView
     case bcdefault = -99
     
@@ -29,7 +29,7 @@ open class BSSNewBaseController: UIViewController {
     }
 
     //  控制器状态
-    public lazy var bccontroller_status: BSSEnumBaseControllerStatus = .bcdefault {
+    public lazy var bccontroller_status: BSSEnumNewBaseControllerStatus = .bcdefault {
         didSet {
             bccontroller_status_change()
         }
@@ -173,7 +173,7 @@ extension BSSNewBaseController {
 extension BSSNewBaseController {
     private func bccontroller_status_change() {
         
-        if bccontroller_status == BSSEnumBaseControllerStatus.bcloading {
+        if bccontroller_status == BSSEnumNewBaseControllerStatus.bcloading {
             
             bcshow_loadingView()
         }else if bccontroller_status == .bcdata_loaded || bccontroller_status == .bcdefault {
