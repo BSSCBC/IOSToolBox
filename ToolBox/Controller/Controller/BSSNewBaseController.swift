@@ -29,9 +29,9 @@ open class BSSNewBaseController: UIViewController {
     }
 
     //  控制器状态
-    public lazy var bccontroller_status: BSSEnumNewBaseControllerStatus = .bcdefault {
+    public lazy var bccontrollerstatus: BSSEnumNewBaseControllerStatus = .bcdefault {
         didSet {
-            bccontroller_status_change()
+            bccontrollerstatus_change()
         }
     }
 
@@ -43,20 +43,20 @@ open class BSSNewBaseController: UIViewController {
          }
      }
     
-    private lazy var bccurrent_size: CGSize = .zero
+    private lazy var bccurrentsize: CGSize = .zero
     
-    public lazy var bcis_push: Bool = true
+    public lazy var bcispush: Bool = true
     
-    public lazy var bccontent_view: BSSView = BSSView()
+    public lazy var bccontentview: BSSView = BSSView()
     
-    public lazy var bcbackground_content_view: BSSView = BSSView()
+    public lazy var bcbackgroundcontentview: BSSView = BSSView()
     
     //  用于解决,左滑返回于scrollView等控件左右滑动冲突,牺牲左侧宽度10的所有事件
-    private(set) lazy var bcleft_tap_view: BSSView = BSSView()
+    private(set) lazy var bclefttapview: BSSView = BSSView()
     
-    public lazy var bcrequest_loading_view: BSSView = BSSView()
+    public lazy var bcrequestloadingview: BSSView = BSSView()
     
-    public lazy var bcstatus_view: BSSView = BSSView()
+    public lazy var bcstatusview: BSSView = BSSView()
     
     deinit {
         print(String(format: "%@", self) + "被销毁了")
@@ -70,7 +70,7 @@ extension BSSNewBaseController {
         bcsetInterface()
         bcsetNavigationBar()
         
-        bccontroller_status = .bcdefault
+        bccontrollerstatus = .bcdefault
     }
     
     override open func viewWillLayoutSubviews() {
@@ -95,49 +95,49 @@ extension BSSNewBaseController {
 extension BSSNewBaseController {
     
     @objc dynamic open func bcretry_request_click() {
-        bccontroller_status = .bcloading
+        bccontrollerstatus = .bcloading
     }
 }
 
 extension BSSNewBaseController {
     @objc dynamic open func bcsetInterface() {
         
-        view.addSubview(bcbackground_content_view)
-        bcbackground_content_view.isUserInteractionEnabled = false
+        view.addSubview(bcbackgroundcontentview)
+        bcbackgroundcontentview.isUserInteractionEnabled = false
         
-        view.addSubview(bcstatus_view)
+        view.addSubview(bcstatusview)
         
-        view.addSubview(bcrequest_loading_view)
-        bcrequest_loading_view.isUserInteractionEnabled = false
+        view.addSubview(bcrequestloadingview)
+        bcrequestloadingview.isUserInteractionEnabled = false
         
-        view.addSubview(bccontent_view)
+        view.addSubview(bccontentview)
     }
     
-    public func bccontent_addSubview(_ view: UIView) {
-        bccontent_view.addSubview(view)
+    public func bccontentaddSubview(_ view: UIView) {
+        bccontentview.addSubview(view)
     }
     
-    public func bcrequest_loading_addSubview(_ view: UIView) {
-        for subView in bcrequest_loading_view.subviews {
+    public func bcrequestloadingaddSubview(_ view: UIView) {
+        for subView in bcrequestloadingview.subviews {
             subView.removeFromSuperview()
         }
         
-        bcrequest_loading_view.addSubview(view)
+        bcrequestloadingview.addSubview(view)
     }
     
-    public func bcstatus_addSubview(_ view: UIView) {
-        for subView in bcstatus_view.subviews {
+    public func bcstatusaddSubview(_ view: UIView) {
+        for subView in bcstatusview.subviews {
             subView.removeFromSuperview()
         }
         
-        bcstatus_view.addSubview(view)
+        bcstatusview.addSubview(view)
     }
 }
 
 extension BSSNewBaseController {
     @objc dynamic open func bcsetNavigationBar() {
         
-        view.addSubview(bcleft_tap_view)
+        view.addSubview(bclefttapview)
     }
     
     @objc dynamic open func bcsetSubviewsFrame() {
@@ -151,35 +151,35 @@ extension BSSNewBaseController {
     private func bclayoutsubviewsframe() {
         
         let size = view.frame.size
-        if bccurrent_size.width > 0 && bccurrent_size.height > 0 && size.width > 0 && size.height > 0 && bccurrent_size.width == size.width && bccurrent_size.height == size.height {
+        if bccurrentsize.width > 0 && bccurrentsize.height > 0 && size.width > 0 && size.height > 0 && bccurrentsize.width == size.width && bccurrentsize.height == size.height {
             return
         }
                 
-        bccurrent_size = view.bounds.size
+        bccurrentsize = view.bounds.size
         
-        bcbackground_content_view.frame = view.bounds
-        bccontent_view.frame = view.bounds
+        bcbackgroundcontentview.frame = view.bounds
+        bccontentview.frame = view.bounds
         
-        bcrequest_loading_view.frame = view.bounds
-        bcrequest_loading_view.bcset(scale: bcscale)
+        bcrequestloadingview.frame = view.bounds
+        bcstatusview.bcscale = bcscale
         
-        bcstatus_view.frame = view.bounds
-        bcstatus_view.bcset(scale: bcscale)
+        bcstatusview.frame = view.bounds
+        bcstatusview.bcscale = bcscale
                 
-        bcleft_tap_view.frame = CGRect(x: 0, y: bccurrentdevice.bcnavigationBarmaxY(), width: 15 * bcscale, height: view.frame.height - bccurrentdevice.bcnavigationBarmaxY())
+        bclefttapview.frame = CGRect(x: 0, y: bccurrentdevice.bcnavigationBarmaxY(), width: 15 * bcscale, height: view.frame.height - bccurrentdevice.bcnavigationBarmaxY())
     }
 }
 
 extension BSSNewBaseController {
-    private func bccontroller_status_change() {
+    private func bccontrollerstatus_change() {
         
-        if bccontroller_status == BSSEnumNewBaseControllerStatus.bcloading {
+        if bccontrollerstatus == BSSEnumNewBaseControllerStatus.bcloading {
             
             bcshow_loadingView()
-        }else if bccontroller_status == .bcdata_loaded || bccontroller_status == .bcdefault {
+        }else if bccontrollerstatus == .bcdata_loaded || bccontrollerstatus == .bcdefault {
             
             bcshow_contentView()
-        }else if bccontroller_status == .bcshow_status {
+        }else if bccontrollerstatus == .bcshow_status {
             
             bcshow_statusView()
         }
@@ -188,27 +188,27 @@ extension BSSNewBaseController {
 
 extension BSSNewBaseController {
     private func bcshow_loadingView() {
-        bccontent_view.isHidden = true
-        bcstatus_view.isHidden = true
-        bcrequest_loading_view.isHidden = false
+        bccontentview.isHidden = true
+        bcstatusview.isHidden = true
+        bcrequestloadingview.isHidden = false
     }
     
     private func bcshow_contentView() {
-        bcrequest_loading_view.isHidden = true
-        bccontent_view.isHidden = false
-        bcstatus_view.isHidden = true
+        bcrequestloadingview.isHidden = true
+        bccontentview.isHidden = false
+        bcstatusview.isHidden = true
     }
     
     private func bcshow_statusView() {
-        bccontent_view.isHidden = true
-        bcstatus_view.isHidden = false
-        bcrequest_loading_view.isHidden = true
+        bccontentview.isHidden = true
+        bcstatusview.isHidden = false
+        bcrequestloadingview.isHidden = true
     }
 }
 
 public extension BSSNewBaseController {
     class func bcID() -> String {
         let name = ("\(self)" + "\(#function)")
-        return name.bcmd5()
+        return name.bcmd5
     }
 }
