@@ -14,9 +14,9 @@ public enum BSSEnumNewBaseControllerStatus: Int {
     case bcloading = -98
     
     //  显示已经加载过数据
-    case bcdata_loaded = -97
+    case bcdataloaded = -97
     
-    case bcshow_status = 1
+    case bcshowstatus = 1
 }
 
 open class BSSNewBaseController: UIViewController {
@@ -94,7 +94,7 @@ extension BSSNewBaseController {
 
 extension BSSNewBaseController {
     
-    @objc dynamic open func bcretry_request_click() {
+    @objc dynamic open func bcretryrequestclick() {
         bccontrollerstatus = .bcloading
     }
 }
@@ -176,12 +176,12 @@ extension BSSNewBaseController {
         if bccontrollerstatus == BSSEnumNewBaseControllerStatus.bcloading {
             
             bcshow_loadingView()
-        }else if bccontrollerstatus == .bcdata_loaded || bccontrollerstatus == .bcdefault {
+        }else if bccontrollerstatus == .bcdataloaded || bccontrollerstatus == .bcdefault {
             
             bcshow_contentView()
-        }else if bccontrollerstatus == .bcshow_status {
+        }else if bccontrollerstatus == .bcshowstatus {
             
-            bcshow_statusView()
+            bcshowstatusView()
         }
     }
 }
@@ -199,7 +199,7 @@ extension BSSNewBaseController {
         bcstatusview.isHidden = true
     }
     
-    private func bcshow_statusView() {
+    private func bcshowstatusView() {
         bccontentview.isHidden = true
         bcstatusview.isHidden = false
         bcrequestloadingview.isHidden = true
