@@ -143,7 +143,9 @@ extension BSSNewBaseController {
     @objc dynamic open func bcsetSubviewsFrame() {
         
         let scale = view.frame.bcscaletowidth(originalWidth: 375)
-        bcset(scale: scale)
+        if bcscale != scale {
+            bcscale = scale
+        }
         
         bclayoutsubviewsframe()
     }
